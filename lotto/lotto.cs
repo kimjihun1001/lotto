@@ -5,110 +5,131 @@ namespace lotto
 {
     class lotto
     {
-        public static void GetInput()
-        {
-            
-        }
         static void Main(string[] args)
         {
-            // 6개의 숫자 입력받기 - 중복, 범위 밖 숫자면 다시 받기
-            WriteLine("1~45 중에서 서로 다른 숫자 6개를 입력하세요.\n하나씩 입력할 때마다 엔터를 누르면 됩니다.");
-            int[] inputList = new int[6];
-
-            for (int i = 0; i < 6; )
+            bool keep = true;
+            while (keep)
             {
-                string input = ReadLine();
-                int inputToInt = int.Parse(input);
+                // 6개의 숫자 입력받기 - 중복, 범위 밖 숫자면 다시 받기
+                WriteLine("1~45 중에서 서로 다른 숫자 6개를 입력하세요.\n하나씩 입력할 때마다 엔터를 누르면 됩니다.");
+                int[] inputList = new int[6];
 
-                if (Array.Exists(inputList, x => x == inputToInt) == true)
+                for (int i = 0; i < 6;)
                 {
-                    WriteLine("중복된 숫자입니다. 다시 입력하세요: ");
-                }
-                else if (inputToInt <= 45 && inputToInt > 0)
-                {
-                    inputList[i] = inputToInt;
-                    WriteLine("입력값: " + inputList[i]);
-                    i += 1;
-                }
-                else
-                {
-                    WriteLine("1부터 45 사이의 숫자를 입력해야 합니다. 다시 입력하세요: ");
-                }
+                    string input = ReadLine();
+                    int inputToInt = int.Parse(input);
 
-            }
-
-            // 로또 당첨 번호 - 랜덤 6개의 숫자 생성하기 - 중복되지 않도록
-            int[] ranNumList = new int[6];
-
-            for (int i = 0; i < 6; )
-            {
-                Random getOneNum = new Random();
-                int number = getOneNum.Next(1, 46);
-                if (Array.Exists(ranNumList, x => x == number) == false)
-                {
-                    ranNumList[i] = number;
-                    i += 1;
-                }
-                else
-                {
-                }
-            }
-
-            // 로또 당첨 번호 출력
-            Write("이번 로또 당첨 번호는: ");
-            for (int i = 0; i < 6; i++)
-            {
-                Write(ranNumList[i] + " ");
-            }
-            WriteLine("입니다!");
-
-            // 숫자 비교하기
-            int score = 0;
-            for (int i = 0; i < 6; i++)
-            {
-                for (int j = 0; j < 6; j++)
-                {
-                    if (ranNumList[i] == inputList[j])  //ranNumList[i] == input2 || ranNumList[i] == input3 || ...
+                    if (Array.Exists(inputList, x => x == inputToInt) == true)
                     {
-                        score += 1;
+                        WriteLine("중복된 숫자입니다. 다시 입력하세요: ");
+                    }
+                    else if (inputToInt <= 45 && inputToInt > 0)
+                    {
+                        inputList[i] = inputToInt;
+                        WriteLine("입력값: " + inputList[i]);
+                        i += 1;
+                    }
+                    else
+                    {
+                        WriteLine("1부터 45 사이의 숫자를 입력해야 합니다. 다시 입력하세요: ");
+                    }
+
+                }
+
+                // 로또 당첨 번호 - 랜덤 6개의 숫자 생성하기 - 중복되지 않도록
+                int[] ranNumList = new int[6];
+
+                for (int i = 0; i < 6;)
+                {
+                    Random getOneNum = new Random();
+                    int number = getOneNum.Next(1, 46);
+                    if (Array.Exists(ranNumList, x => x == number) == false)
+                    {
+                        ranNumList[i] = number;
+                        i += 1;
                     }
                     else
                     {
                     }
                 }
+
+                // 사용자 입력 번호 출력
+                Write("당신이 입력한 번호는: ");
+                for (int i = 0; i < 6; i++)
+                {
+                    Write(inputList[i] + " ");
+                }
+                WriteLine("입니다!");
+
+                // 로또 당첨 번호 출력
+                Write("이번 로또 당첨 번호는: ");
+                for (int i = 0; i < 6; i++)
+                {
+                    Write(ranNumList[i] + " ");
+                }
+                WriteLine("입니다!");
+
+                // 숫자 비교하기
+                int score = 0;
+                for (int i = 0; i < 6; i++)
+                {
+                    for (int j = 0; j < 6; j++)
+                    {
+                        if (ranNumList[i] == inputList[j])  //ranNumList[i] == input2 || ranNumList[i] == input3 || ...
+                        {
+                            score += 1;
+                        }
+                        else
+                        {
+                        }
+                    }
+                }
+
+                // 맞춘 갲수 출력
+                WriteLine("숫자를 " + score + "개 맞췄습니다.");
+
+                // 등수 출력
+                int grade = 0;
+                switch (score)
+                {
+                    case 1:
+                        WriteLine("아쉽지만 꽝입니다. 다시 도전해보세요!");
+                        break;
+                    case 2:
+                        WriteLine("아쉽지만 꽝입니다. 다시 도전해보세요!");
+                        break;
+                    case 3:
+                        grade = 4;
+                        WriteLine("축하합니다! " + grade + "등입니다.");
+                        break;
+                    case 4:
+                        grade = 3;
+                        WriteLine("축하합니다! " + grade + "등입니다.");
+                        break;
+                    case 5:
+                        grade = 2;
+                        WriteLine("축하합니다! " + grade + "등입니다.");
+                        break;
+                    case 6:
+                        grade = 1;
+                        WriteLine("축하합니다! " + grade + "등입니다.");
+                        break;
+                }
+
+                // 반복할지 물어보기
+                WriteLine("다시 시도하시겠습니까? Y/N");
+                string answer = ReadLine();
+                if (answer == "n" || answer == "N")
+                {
+                    keep = false;
+                }
+                else
+                {
+
+                }
+
             }
-
-            // 맞춘 갲수 출력
-            WriteLine("숫자를 " + score + "개 맞췄습니다.");
-
-            // 등수 출력
-            int grade = 0;
-            switch (score)
-            {
-                case 1:
-                    WriteLine("아쉽지만 꽝입니다. 다시 도전해보세요!");
-                    break;
-                case 2:
-                    WriteLine("아쉽지만 꽝입니다. 다시 도전해보세요!");
-                    break;
-                case 3:
-                    grade = 4;
-                    WriteLine("축하합니다! " + grade + "등입니다.");
-                    break;
-                case 4:
-                    grade = 3;
-                    WriteLine("축하합니다! " + grade + "등입니다.");
-                    break;
-                case 5:
-                    grade = 2;
-                    WriteLine("축하합니다! " + grade + "등입니다.");
-                    break;
-                case 6:
-                    grade = 1;
-                    WriteLine("축하합니다! " + grade + "등입니다.");
-                    break;
-            }
-
+            
         }
     }
 }
